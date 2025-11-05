@@ -11,9 +11,9 @@ Actor PB_Hellion //Replaces Archvile
   Obituary "A Hellion burned %o to a crisp."
   Health 1250
   SpawnID 2330
-	Radius 22
-	Height 70
-  Scale 1.32
+	Radius 20
+	Height 56
+  Scale 1
   Mass 620
   Speed 17
   PainChance 12
@@ -31,7 +31,6 @@ damagefactor "Head", 0.25
 damagefactor "killme", 0.0
 damagefactor "GibRemoving", 0.0
 DamageFactor "CauseObjectsToSplash", 0.0
-BloodType "Brutal_Blood", "BloodSPlatterReplacer", "SawBlood"
 
 	damagefactor "Blood", 0.0 damagefactor "BlueBlood", 0.0 damagefactor "GreenBlood", 0.0
 	damagefactor "TeleportRemover", 0.0

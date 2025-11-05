@@ -10,9 +10,9 @@ ACTOR PB_EliteArachnotron: Arachnotron //replaces Arachnotron
 	//$Sprite ARACA1D1
 	Tag "Elite Arachnotron"
 	Health 750
-	Scale 1.35
+	Scale 1
 	Radius 60
-	Height 70
+	Height 64
 	SpawnID 1620
 	+DONTHARMCLASS
 	+DONTHARMSPECIES
@@ -551,7 +551,7 @@ ACTOR IonPuff: BulletPuff
   Alpha 0.95
   +NOBLOCKMAP
   +NOGRAVITY
-  +CLIENTSIDEONLY
+  //+CLIENTSIDEONLY
   Scale 1.1
   states
   {
