@@ -56,6 +56,7 @@ Class PB_SuperGL : PB_Weapon
 				A_SetInventory("PB_LockScreenTilt",1);
 				A_StartSound("weapons/sgl/inspect1", CHAN_AUTO);
 				A_SetCurrentGrenadeType("Impact");
+                A_SetCrosshair(-1);
 			}
 			SL00 ABCDEFGHIJKLMNOP 1 { 
 				A_SetRoll(roll+0.8,SPF_INTERPOLATE);
@@ -156,6 +157,13 @@ Class PB_SuperGL : PB_Weapon
 				return A_DoPBWeaponAction(WRF_ALLOWRELOAD);
 			}
 			goto ready;
+
+        NoAmmo:
+			SL02 E 1 {
+				SGL_ChangeModeSprite("SL02","SL12","SL22","SL32","SL42","S001");
+				
+			}
+			goto ready3;
 		
 		Fire:
 			TNT1 A 0 PB_jumpIfHasBarrel("ThrowBarrel","ThrowFlameBarrel","ThrowIceBarrel");
@@ -174,6 +182,7 @@ Class PB_SuperGL : PB_Weapon
 				A_TakeInventory("GrenadeRounds",1);
 				A_ZoomFactor(0.98);
 				A_GunFlash();
+				PB_GunSmoke_Launcher(0, 0, 0);
 			}
 			SL60 B 1 BRIGHT {
 				SGL_ChangeModeSprite("SL60","SL61","SL62","SL63","SL64");
@@ -226,7 +235,7 @@ Class PB_SuperGL : PB_Weapon
 			TNT1 A 0 PB_checkReload(null,"Ready","NoAmmo",8,1);
 			TNT1 A 0 {
 				A_ZoomFactor(1.0);
-				A_SetCrosshair(5);
+				A_SetCrosshair(-1);
 				A_SetInventory("PB_LockScreenTilt",1);
 			}
 			TNT1 A 0 A_JumpIfInventory("SGLUnloaded",1,"ReloadUnloaded");
@@ -320,7 +329,7 @@ Class PB_SuperGL : PB_Weapon
 		UnloadNormal:
 			TNT1 A 0 {
 				A_ZoomFactor(1.0);
-				A_SetCrosshair(5);
+				A_SetCrosshair(-1);
 				A_SetInventory("PB_LockScreenTilt",1);
 			}
 			TNT1 A 0 A_StartSound("Weapons/GrenadeLoad", 9);
@@ -340,7 +349,7 @@ Class PB_SuperGL : PB_Weapon
 		UnloadChamber:
 			TNT1 A 0 {
 				A_ZoomFactor(1.0);
-				A_SetCrosshair(5);
+				A_SetCrosshair(-1);
 				A_SetInventory("PB_LockScreenTilt",1);
 			}
 			TNT1 A 0 A_StartSound("Weapons/GrenadeLoad", 9);
@@ -443,6 +452,7 @@ Class PB_SuperGL : PB_Weapon
 				A_SetInventory("GrenadeTypeIncendiary", 0);
 				A_SetInventory("GrenadeTypeCryo", 0);
 				A_SetInventory("GrenadeTypeAcid", 0);
+				A_SetInventory("SGLUnloaded", 0);
 				
 				if(invoker.ammo1.amount > 0 && invoker.ammo2.amount < 7)
 					PB_AmmoIntoMag("GrenadeRounds","PB_RocketAmmo",7,1);
@@ -1609,7 +1619,7 @@ Class FlakShell : Actor
 		+EXTREMEDEATH
 		+FORCEXYBILLBOARD
 		+CANBOUNCEWATER
-		+DOOMBOUNCE
+		BounceType "Doom";
 		-EXPLODEONWATER
 		+CANBOUNCEWATER
 		BounceFactor 0.75;
@@ -1662,8 +1672,8 @@ Class SubFlakShell : actor
 		+EXTREMEDEATH
 		+FORCEXYBILLBOARD
 		+CANBOUNCEWATER
-		+DOOMBOUNCE
-		-EXPLODEONWATER
+		BounceType "Doom";
+        -EXPLODEONWATER
 		+CANBOUNCEWATER
 		Gravity 0.8;
 		BounceFactor 0.4;

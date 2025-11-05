@@ -2,6 +2,11 @@ AddOptionMenu "OptionsMenu"
 {
 	Submenu "Project Brutality Settings", "PBSettings"
 }
+AddOptionMenu "OptionsMenuSimple"
+{
+	Submenu "Project Brutality Settings", "PBSettings"
+}
+
 
 //Key : Value
 //PB_<monster code name>, monster name
@@ -116,23 +121,35 @@ OptionMenu "PBSettings"
 	Title "Project Brutality Settings"
 	StaticText " "
 	StaticText " "
-	Submenu "Spawn Settings",		"GlobalSettings"
+	Submenu "$PB_SPAWN_OPTIONS",		"GlobalSettings"
 	StaticText " "
-	Submenu "Gameplay Settings",		"GameplaySettings"
+	Submenu "$PB_GAMEPLAY_OPTIONS",		"GameplaySettings"
 	StaticText " "
-	Submenu "Visual Settings",		"RenderingSettings"
+	Submenu "$PB_VISUAL_OPTIONS",		"RenderingSettings"
 	StaticText " "
-	Submenu "HUD Settings",			"PB_HUDOptions"
+	Submenu "$PB_HUD_OPTIONS",			"PB_HUDOptions"
+    statictext ""
+	Submenu "$PB_MP_OPTIONS","PB_MultiplayerOptions"
 	statictext ""
 	Submenu "$GB_OPTIONS","gb_Options"
 	StaticText " "
 	StaticText " "
 	StaticText " "
-	Command "Go to Test Map", "map PBTEST"
+	Command "$PB_GO_TESTMAP", "map PBTEST"
 	StaticText " "
 	StaticText "$PB_VERSION_INFO"
 }
 //////////////////////////////////////////////////////////////////////////////////////
+
+OptionMenu "PB_MultiplayerOptions"
+{
+    Title "Project Brutality MP Options"
+
+    StaticText "Options", gold
+    Option "Force Singleplayer Movement", "pb_forcespmovement", "YesNo"
+    TextField "Callsign", "pb_mpcallsign"
+    StaticText "Callsigns are three letter, uppercase names that appear instead of your full nickname."
+}
 
 OptionMenu "PB_HUDOptions"
 {
@@ -141,6 +158,7 @@ OptionMenu "PB_HUDOptions"
 	StaticText "Options", gold
 	Option "HUD Sways when moving", "PB_HudDynamics", "YesNo"
 	Option "Helmet Corners", "pb_showhudvisor", "YesNo"
+    Option "Helmet Middle > Bottom", "pb_visormiddlepartbottom", "YesNo"
 	Option "Visor Glass", "pb_showhudvisorglass", "YesNo"
 	Option "Level Stats", "pb_showlevelstats", "YesNo"
 	Option "Low Resolution Font", "pb_uselowreshudfont", "YesNo"
@@ -158,6 +176,7 @@ OptionMenu "PB_HUDOptions"
 	StaticText " "
 	StaticText "GZDoom HUD scaling", gold
 	StaticText "Disable if your HUD is too big or too small. Also allows finer scaling.", brick
+    StaticText "Set to 0.98 for smoother swaying.", brick
 	Option "Old HUD Scaling", "hud_oldscale", "YesNo"
 	Slider "Scale Factor", "hud_scalefactor", 0.36, 1.0, 0.02, 2
 	StaticText " "
@@ -167,6 +186,7 @@ OptionMenu "PB_HUDOptions"
 	StaticText " "
 	StaticText "Execution", gold
 	Option "Show Execution Box", "pb_execution_box", "YesNo"
+	option "Execution Target Type",pb_execution_indicatorType,IndicatorTypes
 	StaticText  ""
 	StaticText "Effects", gold
 	Option "Show Blood Droplets", "pb_showblooddrops", "YesNo"
@@ -238,6 +258,19 @@ OptionValue "AimingStyle"
 {
 	0, "Toggle"
 	1, "Hold"
+}
+
+OptionValue IndicatorTypes
+{
+	-2,"minimal (text)"
+	-1,"minimal"
+	0,"magic 1"
+	1,"magic 2"
+	2,"shiny"
+	3,"star"
+	4,"default"
+	5,"swirl"
+	6,"stakes"
 }
 
 OptionMenu "GlobalSettings"
@@ -365,6 +398,13 @@ optionvalue "MG42Spawns"
 	2,"Off"
 }
 
+optionvalue "MonsterDrops"
+{
+	0,"Just ammo"
+	1,"Default"
+	//2,"weapons+"
+}
+
 OptionMenu "GameplaySettings"
 {
 	Title "---------Game Settings---------"
@@ -374,11 +414,22 @@ OptionMenu "GameplaySettings"
 	StaticText "Cross is unique for each weapon (overrides custom crosshair setting)"
 	StaticText " "
 	StaticText " "
-	option "Keep unupgraded weapons ","pb_keepweapons","EnabledOption"
+	option "Keep unupgraded weapons ","pb_keepweapons","EnabledOption"//,false,0
+	StaticText "Only effective if keep weapons is disabled"
+	option "Keep Pistol","PB_KeepPistol","EnabledOption"//, "pb_keepweapons"
+	option "Keep Revolver","PB_KeepRevolver","EnabledOption"//, "pb_keepweapons"
+	option "Keep SSG","PB_KeepSSG","EnabledOption"//, "pb_keepweapons"
+	option "Keep Carbine","PB_KeepCarbine","EnabledOption"//, "pb_keepweapons"
 	StaticText "Supported weapons:  revolver/deagle, SSG/QSG, Carbine/LMG",green
 	StaticText " "
 	StaticText " "
 	option "Wall Penetration ","pb_wallpenetration","EnabledOption"
+	option "Demon Tech fire ","pb_dtechfire","EnabledOption"
+	StaticText "Allow DTech projectiles to spawn hurting fire"
+	Slider "Nail stay time", "pb_naillifetime", 0, 60, 1, 0
+	StaticText " "
+	StaticText " "
+	option "Monster weapon drops ","PB_WeaponDrops","MonsterDrops"
 	StaticText " "
 	StaticText " "
 	
@@ -395,7 +446,7 @@ OptionMenu "GameplaySettings"
 	//Option "Weapon Wheel Freezes Time",	"py_weaponwheel_freeze", "OnOff"
 	Option "Weapon ADS Controls","pb_toggle_aim_hold", "AimingStyle" //Looks like we are using this newer line.
 	StaticText " "
-	StaticText "--------Grenade Bounce/Explosion Behavior"
+	StaticText "-----------------Grenade Bounce/Explosion Behavior-----------------"
 	Option "Hand Grenades", "pb_grenadeimpact", "GrenadeBounceStyle"
 	Option "Grenade Launcher", "pb_sglgrenadeimpact", "GrenadeBounceStyle"
 	StaticText "Grenade Launcher 'Sticky Bombs' not affected.", orange
@@ -464,7 +515,7 @@ OptionMenu "GameplaySettings"
 	StaticText "$PB_RECOIL_EXTRA_DESC"
 	StaticText " "
 	StaticText " "	
-	
+	/*
 	StaticText "-----------------Weapon Progression-----------------"
 	
 	StaticText " "
@@ -487,7 +538,7 @@ OptionMenu "GameplaySettings"
 	Option "Nailgun upgrades Minigun",				"pb_UpgradeNailgun", "OnOff"
 	StaticText "No longer use the Minigun when you collect a Nailgun"
 	StaticText " "
-	
+	*/
 	StaticText "-----------------Weapon Misc-----------------"
 
 	Option "$PB_NO_M1PLASMACOOLDOWN", "pb_nocooldown", "YesNo"
@@ -501,6 +552,10 @@ OptionMenu "GameplaySettings"
 	StaticText "$PB_CRYOWARMUP_DESC2"
 	StaticText "$PB_CRYOWARMUP_DESC3"
 	StaticText "$PB_CRYOWARMUP_NO"
+	StaticText " "
+	StaticText "(Experimental Tweaks)"
+	Option "Quad Shotgun Quad-Load", "pb_qsgquadload", "OnOff"
+	StaticText "Allows Quad-Shotgun to reload all four shells at once. Only happens if the option to keep the SSG is off, or if keeping weapons is disabled."
 	StaticText " "
 }
 
@@ -529,6 +584,10 @@ OptionMenu "RenderingSettings"
     Option "Performance Fire", "pb_performance_fire", "OnOff"
     StaticText "Use less effects for Flamethrower fire"
 	StaticText " "
+
+    Option "Gun Smoke Type", "pb_gunsmoketype", "PBSmokeTypes"
+    StaticText "Decide which muzzle smoke particle effect to use"
+    StaticText " "
 
 	Option "Exaggerated Weapon Recoil", "PB_ExaggeratedRecoil", "YesNo"
 	Slider "Exaggeration Multiplier", "PB_ExaggeratedRecoilMul", 0.1, 2.0, 0.1, 1, "PB_ExaggeratedRecoil"
@@ -653,6 +712,11 @@ OptionMenu "MBlurOpts"
 OptionMenu "MonsterSpawns"
 {
 	Title	"---------Monster Spawns---------"
+	
+	Option "Disable PB Monsters", "pb_vanillamonster_override", "YesOrNo"
+	StaticText "Disable PB's Monsters, for those that are running custom enemy packs specifically"
+	StaticText " "
+	
 	StaticText "---------------Zombiemen Variants---------------", gold
 	
 	Option "Disable Nazi random replacements", "PB_NaziExclusiveSpawning", "EnabledOption"
@@ -711,6 +775,7 @@ OptionMenu "MonsterSpawns"
 	StaticText " "
 	Option "Cacodemon Override", "pb_cacodemon_override", "PB_MonsterOverride"
 	StaticText " "
+	Option "T1 - Buff Caco", "pb_NoBuffCaco", "OffOn"
 	Option "T2 - Inferno Caco", "pb_NoMagCaco", "OffOn"
 	Option "T3 - Afrit", "pb_NoAfrit", "OffOn"
 	StaticText " "
@@ -737,6 +802,7 @@ OptionMenu "MonsterSpawns"
 	StaticText " "
 	Option "Arachnotron Override", "pb_arachnotron_override", "PB_MonsterOverride"
 	StaticText " "
+	Option "T1 - Buff Arachnotron", "pb_NoBuffArachnotron", "OffOn"
 	Option "T2 - Inferno Arachnotron", "pb_NoInfernoArachnotron", "OffOn"
 	Option "T3 - Arachnophyte", "pb_NoArachnophyte", "OffOn"
 	Option "T4 - Elite Arachnotron", "pb_NoArachnotron2", "OffOn"
@@ -828,6 +894,7 @@ OptionValue "HealthPackColor"
 
 ListMenu "MainMenu"
 {
+	Font "PBBIG","red","white"
 	IfGame(Doom, Chex)
 	{
 		StaticPatch 80, -10, "M_DOOMPB"
@@ -872,6 +939,7 @@ ListMenu "MainMenu"
 
 ListMenu "PlayerclassMenu"
 {
+	Font "PBBIG","red","white"
 	StaticTextCentered 160, 15, "Select Game Mode"
 	Position 71, 50
 	Selector "M_SKULL1", -30, -8
@@ -880,6 +948,7 @@ ListMenu "PlayerclassMenu"
 
 ListMenu "EpisodeMenu"
 {
+	Font "PBBIG","red","white"
 	StaticTextCentered 160, 15, "Select Episode"
 	Position 21, 50
 	Selector "M_SKULL1", -30, -8
@@ -888,6 +957,7 @@ ListMenu "EpisodeMenu"
 
 ListMenu "SkillMenu"
 {
+	Font "PBBIG","red","white"
 	StaticTextCentered 160, 15, "Select Difficulty"
 	Position 21, 50
 	Selector "M_SKULL1", -30, -8
@@ -947,6 +1017,12 @@ OptionMenu "WeaponVisuals"
 	Title "Weapon Visual Options"
 	Position -32
 	
+	StaticText	"Sprite Rendering", 1
+	Option		"Fix GZDooM archaic rectangular pixels", "PB_PixelRenderingFix", "PixelFixOptions"
+	StaticText	"Because basically, GZDooM has archaic rendering code designed for 4:3 monitors of the old era.", 1
+	StaticText	"This isn't needed anymore, and really only results in weapon sprites being rendered stretched.", 1
+	StaticText	"Pixels no longer being squares and what not, so we forcefully fix it for the weapon sprites.", 1
+	StaticText 	""
 	StaticText	"Bobbing", 1
 	ZMoveSlider	"Walk/Run View Bobbing",				"Adjust view bobbing's intensity when moving",											"movebob",					0.0,	1.0,	0.1
 	ZMoveSlider	"Still View Bobbing",					"Adjust view bobbing's intensity when not moving",										"stillbob",					0.0,	1.0,	0.1
@@ -970,6 +1046,7 @@ OptionMenu "WeaponVisuals"
 	
 	StaticText	"Others", 1
 	ZMoveOption "Speedometer", 							"Enable SpeedOMeter",																	"zm_speedometer",			"Speedometer"
+	ZMoveOption "Horizontal Weapon Stretch","Turn on/off the 20% horizontal weapon stretch","pb_scalexweapons","OnOff"
 	Control		"Reset to default values",				"zmove_reset"
 }
 
@@ -1008,6 +1085,13 @@ OptionValue "Speedometer"
 	2, "Quake Units"
 }
 
+OptionValue "PixelFixOptions"
+{
+	0, "Remove 20% stretch"
+	1, "Counteract 20% stretch"
+	2, "You like your sprites rendering wrong???"
+}
+
 OptionMenu "GoreDebrisMenu"
 {
 	Class "NashGoreMenu"
@@ -1017,11 +1101,12 @@ OptionMenu "GoreDebrisMenu"
 	StaticText ""
 
 	StaticText "$NASHGOREMNU_BLOOD_TITLE", 1
-	NashGoreSlider "Gore Draw Distance", "This has a big performance impact, don't get greedy!", "pb_floorwallblooddrawdist", 400, 3000, 5, 0
-	NashGoreOption "$NASHGOREMNU_BLOOD_TYPE",		"$NASHGOREMNU_HELPTEXT_BLOOD_TYPE",			"nashgore_bloodtype",	"NashGoreBloodTypes"
-	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodamount",	0, 255, 1, 0
+	// NashGoreOption "$NASHGOREMNU_BLOOD_TYPE",		"$NASHGOREMNU_HELPTEXT_BLOOD_TYPE",			"nashgore_bloodtype",	"NashGoreBloodTypes"
+    NashGoreOption "$NASHGOREMNU_BLOOD_TYPE",		        "Use modern blood impact effects.",			"pb_usemodernblood",	"PBBloodTypes"
+	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodmult",	0.0, 10.0, 0.1, 1
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPRITES",	"$NASHGOREMNU_HELPTEXT_BLOOD_SPRITES",		"nashgore_spriteblood",	"NashGoreBloodSpriteValues"
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPURTS",		"$NASHGOREMNU_HELPTEXT_BLOOD_SPURTS",		"nashgore_bloodspurt",	"OnOff"
+    NashGoreOption "Hide Blood Mist",		        "Hide blood cloud effects.",    		    "pb_hidebloodmist",	    "YesNo"
 
 	StaticText ""
 
@@ -1036,12 +1121,6 @@ OptionMenu "GoreDebrisMenu"
 	NashGoreSlider "$NASHGOREMNU_MISC_MAXGORE",				"$NASHGOREMNU_HELPTEXT_MISC_MAXGORE",		"nashgore_maxgore",		0, 2000, 1, 0
 	NashGoreSlider "$NASHGOREMNU_MISC_MAXCASINGS",			"$NASHGOREMNU_HELPTEXT_MISC_MAXCASINGS",	"nashgore_maxcasings",	0, 2000, 1, 0
 	NashGoreOption "Cheap Casings",				"To improve performance, casings will not react to the player and it's surroundings.",			"pb_cheapcasings",		"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_CORPSEBLOOD",			"$NASHGOREMNU_HELPTEXT_MISC_CORPSEBLOOD",	"nashgore_corpseblood",	"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_FOOTPRINTS",			"$NASHGOREMNU_HELPTEXT_MISC_FOOTPRINTS",	"nashgore_footprints",	"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_DEATHFLIP",			"$NASHGOREMNU_HELPTEXT_MISC_DEATHFLIP",		"nashgore_deathflip",	"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_SQUISH",				"$NASHGOREMNU_HELPTEXT_MISC_SQUISH",		"nashgore_squish",		"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_ICEDEATH",			"$NASHGOREMNU_HELPTEXT_MISC_ICEDEATH",		"nashgore_icedeath",	"OnOff"
-	NashGoreOption "$NASHGOREMNU_MISC_SPLAT",				"$NASHGOREMNU_HELPTEXT_MISC_SPLAT",			"nashgore_splat",		"OnOff"
 
 	StaticText ""
 
@@ -1054,6 +1133,19 @@ OptionValue "NashGoreBloodTypes"
 	0, "$NASHGOREMNU_DEFAULT"
 	1, "$NASHGOREMNU_BLOOD_TYPE_CLASSIC"
 	2, "$NASHGOREMNU_VANILLA"
+}
+
+OptionValue "PBBloodTypes"
+{
+	0, "Classic"
+	1, "Modern"
+}
+
+OptionValue "PBSmokeTypes"
+{
+	0, "Modern"
+	1, "Simple"
+    2, "Off"
 }
 
 OptionValue "NashGoreBloodSpriteValues"
