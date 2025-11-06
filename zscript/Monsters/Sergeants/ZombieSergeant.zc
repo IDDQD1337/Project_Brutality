@@ -15,7 +15,7 @@ Class PB_ShotgunGuy : PB_Monster
 		PainSound "monsters/zombie/pain";
 		DeathSound "monsters/zombie/death";
 		ActiveSound "monsters/zombie/searching";
-		Health 90;
+		Health 40;
 		PainChance 200;
 		PainChance "Avoid", 200;
 		PainChance "Head", 255;

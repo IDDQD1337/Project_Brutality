@@ -4,7 +4,7 @@ Class PB_CarbineZombieman: PB_Zombieman //Replaces ZombieMan
 	{
 		//$Title Carbine Zombieman
 		//$Category Project Brutality - Monsters/Former Humans/Zombiemen
-		Health 90;
+		Health 40;
 		DropItem "PB_CarbineZombieDrop";
 		DropItem "PB_GrenadeAmmo", 15;
 	}

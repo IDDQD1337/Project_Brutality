@@ -2,7 +2,7 @@ Class PB_DragonsBreathTracer : PB_Projectile
 {
 	default
 	{
-		PB_Projectile.BaseDamage 14;
+		PB_Projectile.BaseDamage 5;
 		PB_Projectile.RipperCount 0;
 		Damagetype "Shotgun";
 		PoisonDamageType "Fire";

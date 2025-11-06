@@ -29,7 +29,7 @@ Class PB_Cacodemon : PB_Monster
 		Height 56;
 		Speed 10;
 		Mass 400;
-		Health 500;
+		Health 400;
 		GibHealth 25;
 		MeleeRange 60;
 		MeleeThreshold 120;

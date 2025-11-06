@@ -3,7 +3,7 @@ class PB_Shrapnel : PB_Projectile
 	Default
 	{
 		Speed 75;
-		PB_Projectile.BaseDamage 2;
+		PB_Projectile.BaseDamage 1;
 		PB_Projectile.RipperCount 0;
 		Gravity 1.0;
 		Obituary "%o was perforated by %k's shrapnel.";

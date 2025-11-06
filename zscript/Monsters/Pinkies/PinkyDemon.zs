@@ -2,7 +2,7 @@ class PB_Demon : PB_Monster
 {
     Default
     {
-        Health 200;
+        Health 160;
         GibHealth 35;
 		PainChance 180;
 		Speed 10;

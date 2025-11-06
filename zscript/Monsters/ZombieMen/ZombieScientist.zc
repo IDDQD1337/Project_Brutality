@@ -16,7 +16,7 @@ Class PB_ZombieScientist : PB_Monster
 		PainSound "monsters/zombie/pain";
 		DeathSound "monsters/zombie/death";
 		ActiveSound "monsters/zombie/searching";
-		Health 110;
+		Health 80;
 		PainChance 128;
 		PainChance "Avoid", 255;
 		PainChance "Head", 255;

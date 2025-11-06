@@ -64,7 +64,7 @@ class PB_Mancubus1 : PB_Monster
 		Radius 48;
 		Height 64;
 		GibHealth 30;
-		Health 900;
+		Health 600;
 		Mass 2500;
 
 		Obituary "%o was incinerated by a Mancubus.";

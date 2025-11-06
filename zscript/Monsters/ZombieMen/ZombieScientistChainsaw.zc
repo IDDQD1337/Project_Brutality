@@ -5,7 +5,7 @@ Class PB_ZombieScientistChainsaw : PB_ZombieScientist
 			//$Title Chainsaw Scientist
 			//$Category Project Brutality - Monsters/Former Humans/Zombiemen
 			//$Sprite 5CZAB1
-			Health 125;
+			Health 80;
 			MaxTargetRange 200;
 			MeleeRange 90;
 			DropItem "PB_Fuel", 96;

@@ -2,7 +2,7 @@ class PB_9x19mm : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 17;
+		PB_Projectile.BaseDamage 6;
 		PB_Projectile.RipperCount 2;
 		PB_Projectile.PenetrationCount 2;
 		+PB_Projectile.SMALLIMPACT;
@@ -14,7 +14,7 @@ class PB_9x19mmSubsonic : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 19;
+		PB_Projectile.BaseDamage 5;
 		PB_Projectile.RipperCount 1;
 		PB_Projectile.PenetrationCount 1;
         +PB_Projectile.SMALLIMPACT;
@@ -23,11 +23,23 @@ class PB_9x19mmSubsonic : PB_Projectile
 	}
 }
 
+class PB_45ACP : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 7;
+		PB_Projectile.RipperCount 3;
+		PB_Projectile.PenetrationCount 2;
+		+PB_Projectile.SMALLIMPACT;
+		Obituary "%o met muh gods caliber at %k's hands.";
+	}
+}
+
 class PB_45ACPHP : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 15;
+		PB_Projectile.BaseDamage 8;
 		PB_Projectile.RipperCount 2;
 		PB_Projectile.PenetrationCount 2;
 		+PB_Projectile.WHIZCRACK;
@@ -35,6 +47,9 @@ class PB_45ACPHP : PB_Projectile
 		Obituary "%o was filled with bullets by %k.";
 	}
 }
+
+//[Pop] The harder part is these two. Should they be balanced like shotguns?
+//Or should they be balanced like rifles? Or maybe pistols?
 
 class PB_500SW : PB_Projectile
 {
@@ -57,17 +72,5 @@ class PB_50AE : PB_Projectile
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;
 		Obituary "%o was styled on by %k.";
-	}
-}
-
-class PB_45ACP : PB_Projectile
-{
-	Default
-	{
-		PB_Projectile.BaseDamage 20;
-		PB_Projectile.RipperCount 3;
-		PB_Projectile.PenetrationCount 2;
-		+PB_Projectile.SMALLIMPACT;
-		Obituary "%o met muh gods caliber at %k's hands.";
 	}
 }

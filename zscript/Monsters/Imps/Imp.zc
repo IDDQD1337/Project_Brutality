@@ -12,7 +12,7 @@ Class PB_Imp1 : PB_Monster// Replaces DoomImp
 		PainSound "imp/pain";
 		DeathSound "imp/death";
 		ActiveSound "imp/active";
-		Health 100;
+		Health 80;
 		PainChance 200;
 		PainChance "Avoid", 64;
 		PainChance "Head", 255;

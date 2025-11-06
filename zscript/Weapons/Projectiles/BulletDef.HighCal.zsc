@@ -2,7 +2,7 @@ class PB_556x45mm : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 22;
+		PB_Projectile.BaseDamage 13;
 		PB_Projectile.RipperCount 3;
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;
@@ -14,7 +14,7 @@ class PB_556x45mmAP : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 25;
+		PB_Projectile.BaseDamage 15;
 		PB_Projectile.RipperCount 5;
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;
@@ -28,7 +28,7 @@ class PB_762x51mm : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 35;
+		PB_Projectile.BaseDamage 17;
 		PB_Projectile.RipperCount 4;
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;
@@ -40,7 +40,7 @@ class PB_762x51mmAP : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 165;
+		PB_Projectile.BaseDamage 35;
 		PB_Projectile.RipperCount 8;
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;
@@ -52,7 +52,7 @@ class PB_792x57mm : PB_Projectile
 {
 	Default
 	{
-		PB_Projectile.BaseDamage 40;
+		PB_Projectile.BaseDamage 20;
 		PB_Projectile.RipperCount 5;
 		PB_Projectile.PenetrationCount 3;
 		+PB_Projectile.WHIZCRACK;

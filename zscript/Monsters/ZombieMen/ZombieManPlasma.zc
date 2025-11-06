@@ -5,7 +5,7 @@ Class PB_PlasmaZombie : PB_Zombieman
 			//$Title Plasma Zombieman
 			//$Category Project Brutality - Monsters/Former Humans/Zombiemen
 			//$Sprite ZMAYB1
-			Health 110;
+			Health 40;
 			DropItem "PB_PlasmaZombieDrop";
 			DropItem "StunGrenadeAmmo", 15;
 			Painchance "Head", 256;

@@ -14,7 +14,7 @@ Class PB_ZombieMan : PB_Monster
 		PainSound "monsters/zombie/pain";
 		DeathSound "monsters/zombie/death";
 		ActiveSound "monsters/zombie/searching";
-		Health 70;
+		Health 30;
 		PainChance 200;
 		PainChance "Avoid", 150;
 		PainChance "Head", 255;
