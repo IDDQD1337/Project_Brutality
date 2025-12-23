@@ -503,8 +503,8 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NJ");}
 			A_SetRoll(roll-0.5);
 			A_WeaponReady(WRF_NOPRIMARY);
-				//if (JustPressed(BT_USER4) || JustReleased(BT_USER4)) { return state("SideKickRight"); }
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("SideKickRight"); }
+				//if (JustPressed(BT_Zoom) || JustReleased(BT_Zoom)) { return state("SideKickRight"); }
+				if (PressingZoom() || JustReleased(BT_ZOOM)) { return state("SideKickRight"); }
 				return state("");
 			}
 		TNT1 A 0 A_SetRoll(0)
@@ -594,7 +594,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NK");}
 			A_SetRoll(roll+2);
 			A_WeaponReady(WRF_NOPRIMARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("HookKickRight"); }
+				if (PressingZoom() || JustReleased(BT_Zoom)) { return state("HookKickRight"); }
 				return state("");
 			}
 		TNT1 A 0 A_SetRoll(0)
@@ -682,7 +682,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerBlueBloodOnVisor") >= 1) { A_SetWeaponSprite("P3NL");}
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NL");}
 				A_WeaponReady(WRF_NOPRIMARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("SideKickRight"); }
+				if (PressingZoom() || JustReleased(BT_Zoom)) { return state("SideKickRight"); }
 				return state("");
 			}
 		TNT1 A 0 A_SetRoll(0)
@@ -771,7 +771,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerBlueBloodOnVisor") >= 1) { A_SetWeaponSprite("P3NM");}
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NM");}
 				A_WeaponReady(WRF_NOPRIMARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("ThrustKick"); }
+				if (PressingZoom() || JustReleased(BT_ZOOM)) { return state("ThrustKick"); }
 				return state("");
 		}
 		Goto ReadyFists
@@ -857,7 +857,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NN");}
 				A_SetRoll(roll+0.5);
 				A_WeaponReady(WRF_NOSECONDARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("SideKickLeft"); }
+				if (PressingZoom() || JustReleased(BT_ZOOM)) { return state("SideKickLeft"); }
 				return state("");
 			}
 		Goto ReadyFists
@@ -966,7 +966,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NO");}
 			A_SetRoll(roll-2);
 			A_WeaponReady(WRF_NOSECONDARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("HookKickLeft"); }
+				if (PressingZoom() || JustReleased(BT_ZOOM)) { return state("HookKickLeft"); }
 				return state("");
 			}
 		TNT1 A 0 A_SetRoll(0)
@@ -1048,7 +1048,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerBlueBloodOnVisor") >= 1) { A_SetWeaponSprite("P3NP");}
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NP");}
 				A_WeaponReady(WRF_NOSECONDARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("SideKickLeft"); }
+				if (PressingZoom() || JustReleased(BT_ZOOM)) { return state("SideKickLeft"); }
 				return state("");
 			}
 		TNT1 A 0 A_SetRoll(0)
@@ -1134,7 +1134,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerBlueBloodOnVisor") >= 1) { A_SetWeaponSprite("P3NQ");}
 			if (CountInv("PB_PowerStrength") >= 1 & CountInv("PowerGreenBloodOnVisor") >= 1) { A_SetWeaponSprite("P4NQ");}
 				A_WeaponReady(WRF_NOPRIMARY);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("ThrustKick"); }
+				if (PressingZoom() || JustReleased(BT_Zoom)) { return state("ThrustKick"); }
 				return state("");
 		}
 		Goto ReadyFists
@@ -1169,7 +1169,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 		TNT1 A 0 PB_SetUsingKick(false)
 		TNT1 AAAA 1 {
 				A_WeaponReady(WRF_NOSWITCH);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("HookKickLeft"); }
+				if (PressingZoom() || JustReleased(BT_Zoom)) { return state("HookKickLeft"); }
 				return state("");
 			}
 		Goto ReadyFists
@@ -1203,7 +1203,7 @@ ACTOR PB_Fists : PB_Weapon Replaces Fist
 		TNT1 A 0 PB_SetUsingKick(false)
 		TNT1 AAAA 1 {
 				A_WeaponReady(WRF_NOSWITCH);
-				if (PressingUser4() || JustReleased(BT_USER4)) { return state("HookKickRight"); }
+				if (PressingZoom() || JustReleased(BT_Zoom)) { return state("HookKickRight"); }
 				return state("");
 			}
 		Goto ReadyFists

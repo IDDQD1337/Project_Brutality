@@ -1682,7 +1682,7 @@ extend class PB_WeaponBase
 	action bool PressingAltfire(){return player.cmd.buttons & BT_ALTATTACK;}
 	action bool PressingReload(){return player.cmd.buttons & BT_RELOAD;}
 	action bool PressingUser1(){return player.cmd.buttons & BT_USER1;}
-	action bool PressingUser4(){return player.cmd.buttons & BT_USER4;} //Particularly for the fist combos
+	action bool PressingZoom(){return player.cmd.buttons & BT_ZOOM;} //Particularly for the fist combos
 	
 	//Set weapon recoil, factoring in the recoil multiplier cvar
 	//Normally you want to use PB_WeaponRecoil instead, because it accounts for the berserk powerup
