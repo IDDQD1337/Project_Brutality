@@ -1791,7 +1791,7 @@ extend class PB_WeaponBase
 					return;
 				
 				A_GiveInventory(AmmoMag_Action, giveMag);
-				A_TakeInventory(AmmoPool_Action, takeReserve);
+				A_TakeInventory(AmmoPool_Action, takeReserve,TIF_NOTAKEINFINITE);
 			}
 		}
 	

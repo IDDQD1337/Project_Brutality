@@ -478,7 +478,7 @@ Class PB_Shotgun : PB_WeaponBase
 			{
 				A_StartSound("weapons/sgpump",10,CHANF_OVERLAP);
 				A_Giveinventory("ShotgunAmmo",1);
-				A_Takeinventory("PB_Shell",1);
+				A_Takeinventory("PB_Shell",1,TIF_NOTAKEINFINITE);
 				PB_SetChamberEmpty(false);
 				PB_SetMagEmpty(false);
 			}

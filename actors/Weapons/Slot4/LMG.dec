@@ -1050,7 +1050,7 @@ ACTOR PB_LMG : PB_Weapon
 			TNT1 A 0
 			TNT1 A 0 A_JumpIfInventory("LMGAmmo",100,"Ready3")
 			TNT1 A 0 A_Giveinventory("LMGAmmo",1)
-			TNT1 A 0 A_Takeinventory("PB_HighCalMag",1)
+			TNT1 A 0 A_Takeinventory("PB_HighCalMag",1,TIF_NOTAKEINFINITE)
 			Loop
 
 		StopOverlay: //just for fun lmfao
