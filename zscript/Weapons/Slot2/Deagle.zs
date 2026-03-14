@@ -13,7 +13,7 @@ class PB_Deagle : PB_WeaponBase
 		PB_WeaponBase.respectItem "RespectDeagle";
 		PB_WeaponBase.DualWieldToken "DualWieldingDeagles";	
 		Inventory.PickupSound "weapons/deagle/equip";
-		inventory.pickupmessage "Martian Raptor Automag (Slot 2, Upgrade)";
+		inventory.pickupmessage "$PB_DEAGLE_PICKUP";
 		Obituary "%o was popped by %k's .50 Caliber Hand Cannon.";
 		Inventory.AltHUDIcon "D4E0Z0";
 		PB_WeaponBase.TailPitch 0.6;
@@ -21,7 +21,7 @@ class PB_Deagle : PB_WeaponBase
 		+weapon.noalert;
 		+weapon.noautofire;
 		Scale 0.48;
-		Tag "UAC-H54 Martian Raptor .50 AE Automag";
+		Tag "$PB_DEAGLE_TAG";
 		FloatBobStrength 0.5;
 	}
 	
@@ -103,7 +103,7 @@ class PB_Deagle : PB_WeaponBase
 		ReadyUnloaded:
 		Ready4:	//man i hate this
 			TNT1 A 0 A_JumpIf(A_CheckAkimbo(), "ReadyDualWield");
-			TNT1 A 0 A_JumpIf(!PB_GetChamberEmpty(),"ReadyUnloaded");
+			TNT1 A 0 A_JumpIf(!PB_GetChamberEmpty(),"Ready");
 			D1E0 A 1 {
 				PB_CoolDownBarrel(0, 0, 3);
 				return A_DoPBWeaponAction();

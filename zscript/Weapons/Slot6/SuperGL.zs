@@ -25,8 +25,8 @@ Class PB_SuperGL : PB_Weapon
 		+WEAPON.NOALERT;
 		+WEAPON.NOAUTOFIRE;
 		+FLOORCLIP;
-		Inventory.PickupMessage "Grenade Launcher (Slot 6)";
-		Tag "UAC-M7 Automatic Grenade Launcher";
+		Inventory.PickupMessage "$PB_SGL_PICKUP";
+		Tag "$PB_SGL_TAG";
 		Inventory.AltHUDIcon "SGL0Z0";
 		PB_WeaponBase.respectItem "RespectSGL";
 		PB_WeaponBase.UsesWheel true;
@@ -311,32 +311,14 @@ Class PB_SuperGL : PB_Weapon
 				A_SetCrosshair(-1);
 				PB_SetReloading(true);
 			}
+			TNT1 A 0 A_JumpIf(PB_GetMagUnloaded(),"Ready3");
 			TNT1 A 0 A_JumpIf(!PB_GetChamberEmpty(),"UnloadChamber");
 		UnloadNormal:
-			TNT1 A 0 A_StartSound("Weapons/GrenadeLoad", 9);
 			S402 ABCDEFGHIJKL 1 SGL_ChangeModeSprite("S402","S412","S422","S432","S442");
-			TNT1 A 0 A_StartSound("weapons/nailgun/inspect4", 10);
+			TNT1 A 0 A_StartSound("weapons/sgl/detach", 14);
 			S402 MNOPQRST 1 SGL_ChangeModeSprite("S402","S412","S422","S432","S442");
-			TNT1 A 0 A_StartSound("weapons/nailgun/up", 11);
 			TNT1 A 0 {
-				switch(getSGLMode())
-				{
-					case SGL_Impact:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmo");
-						break;
-					case SGL_Sticky:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoSticky");
-						break;
-					case SGL_Acid:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoAcid");
-						break;
-					case SGL_Fire:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoFire");
-						break;
-					case SGL_Cryo:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoCryo");
-						break;
-				}
+				PB_UnloadSGL();
 				PB_SetMagUnloaded(true);
 				PB_SetMagEmpty(true);
 			}
@@ -346,32 +328,19 @@ Class PB_SuperGL : PB_Weapon
 			goto ready;
 		UnloadChamber:
 			TNT1 A 0 A_StartSound("Weapons/GrenadeLoad", 9);
-			S400 ABCDEFGHIJKL 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
+			S400 ABCD 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
+			TNT1 A 0 {
+				PB_UnloadSGL(CountInv("GrenadeRounds") - 1);
+				PB_SetChamberEmpty(true);
+			}
+			S400 EFGHIJKL 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
 			TNT1 A 0 A_StartSound("weapons/nailgun/inspect4", 10);
 			S400 MNOPQRST 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
 			TNT1 A 0 A_StartSound("weapons/nailgun/up", 11);
 			TNT1 A 0 {
-				switch(getSGLMode())
-				{
-					case SGL_Impact:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmo");
-						break;
-					case SGL_Sticky:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoSticky");
-						break;
-					case SGL_Acid:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoAcid");
-						break;
-					case SGL_Fire:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoFire");
-						break;
-					case SGL_Cryo:
-					PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,0,"PB_SGLAmmoCryo");
-						break;
-				}
+				PB_UnloadSGL();
 				PB_SetMagUnloaded(true);
 				PB_SetMagEmpty(true);
-				PB_SetChamberEmpty(true);
 			}
 			S400 UVWXYZ 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
 			S401 ABCDE 1 SGL_ChangeModeSprite("S401","S411","S421","S431","S441");
@@ -398,12 +367,16 @@ Class PB_SuperGL : PB_Weapon
 			TNT1 A 0 A_JumpIf(PB_GetMagUnloaded(), "SpecialFromUnloaded");
 			TNT1 A 0 A_JumpIf(PB_GetChamberEmpty(), "SpecialFromEmptyChamber");
 			TNT1 A 0 A_StartSound("Weapons/GrenadeLoad", 9);
-			S400 ABCDEFGHIJKL 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
+			S400 ABCD 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
+			TNT1 A 0 {
+				PB_UnloadSGL(CountInv("GrenadeRounds") - 1);
+				PB_SetChamberEmpty(true);
+			}
+			S400 EFGHIJKL 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
 			TNT1 A 0 A_StartSound("weapons/nailgun/inspect4", 10);
 			S400 MNOPQRST 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
 			TNT1 A 0 {
 				A_StartSound("weapons/nailgun/up", 11);
-				PB_SetChamberEmpty(true);
 				PB_SetMagUnloaded(true);
 			}
 			S400 UVWXY 1 SGL_ChangeModeSprite("S400","S410","S420","S430","S440");
@@ -428,7 +401,10 @@ Class PB_SuperGL : PB_Weapon
 			SL03 PQRSTU 1 {
 				SGL_ChangeModeSprite("SL03","SL14","SL24","SL34","SL44");
 			}
-			TNT1 A 0 PB_SpawnSGLDrum();
+			TNT1 A 0 {
+				PB_SpawnSGLDrum();
+				PB_SetMagUnloaded(true);
+			}
 			SL03 VWXYZ 1 {
 				A_SetRoll(roll+1.0,SPF_INTERPOLATE);
 				SGL_ChangeModeSprite("SL03","SL14","SL24","SL34","SL44");
@@ -652,6 +628,28 @@ Class PB_SuperGL : PB_Weapon
 		A_fireprojectile(msl,0,0);		
 	}
 	
+	action void PB_UnloadSGL(int goal = 0)
+	{
+		switch(getSGLMode())
+		{
+		case SGL_Impact:
+			PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,goal,"PB_SGLAmmo");
+			break;
+		case SGL_Sticky:
+			PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,goal,"PB_SGLAmmoSticky");
+			break;
+		case SGL_Acid:
+			PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,goal,"PB_SGLAmmoAcid");
+			break;
+		case SGL_Fire:
+			PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,goal,"PB_SGLAmmoFire");
+			break;
+		case SGL_Cryo:
+			PB_UnloadMag("GrenadeRounds","PB_RocketAmmo",1,1,1,goal,"PB_SGLAmmoCryo");
+			break;
+		}
+	}
+	
 	action void PB_SpawnSGLDrum()
 	{
 		if(PB_GetMagEmpty() && !PB_GetMagUnloaded())
@@ -702,11 +700,11 @@ Class PB_SuperGL : PB_Weapon
 	
 	action void PrintSGLMode()
 	{
-		if(findinventory("GrenadeTypeImpact")) A_Print("$PB_SGLIMPACT", 2);
-		if(findinventory("GrenadeTypeSticky")) A_Print("$PB_SGLSTICKY", 2);
-		if(findinventory("GrenadeTypeIncendiary")) A_Print("$PB_SGLINCEN", 2);
-		if(findinventory("GrenadeTypeCryo")) A_Print("$PB_SGLCRYO", 2);
-		if(findinventory("GrenadeTypeAcid")) A_Print("$PB_SGLACID", 2);	
+		if(findinventory("GrenadeTypeImpact")) A_Print("$PB_SGL_IMPACT", 2);
+		if(findinventory("GrenadeTypeSticky")) A_Print("$PB_SGL_STICKY", 2);
+		if(findinventory("GrenadeTypeIncendiary")) A_Print("$PB_SGL_INCENDIARY", 2);
+		if(findinventory("GrenadeTypeCryo")) A_Print("$PB_SGL_CRYO", 2);
+		if(findinventory("GrenadeTypeAcid")) A_Print("$PB_SGL_ACID", 2);	
 	}
 	
 	action void PB_LookAndDetonateGrenades()

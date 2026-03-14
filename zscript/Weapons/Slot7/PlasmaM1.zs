@@ -12,15 +12,16 @@ Class PB_M1Plasma : PB_WeaponBase
 		Inventory.MaxAmount 2;
 		PB_WeaponBase.respectItem "RespectPlasmaGun";	
 		PB_WeaponBase.DualWieldToken "DualWieldingPlasma";	
-		inventory.pickupmessage "Plasma Rifle (Slot 7)";
+		inventory.pickupmessage "$PB_M1_PICKUP";
 		Inventory.PickupSound "7LSPICK";
 		Inventory.AltHUDIcon "PL4SA0";
-		Tag "UAC-M1 Plasma Rifle";
+		Tag "$PB_M1_Tag";
 		Scale 0.51;
 		FloatBobStrength 0.5;
 		PB_WeaponBase.OffsetRecoilX 2.5;
 		PB_WeaponBase.OffsetRecoilY 2.0;
 		+WEAPON.NOAUTOAIM
+		+WEAPON.NOAUTOFIRE
 	}
 	
 	states
@@ -253,6 +254,7 @@ Class PB_M1Plasma : PB_WeaponBase
 			P1SG BCDEEEEEEEEEEE 1 A_FireProjectile("SmokeSpawner",0,0,0,5);
 			P1SG DCB 1 A_SetRoll(roll-0.5);
 			TNT1 A 0 A_Setinventory("PB_LockScreenTilt",0);
+			TNT1 A 0 PB_ReFire();
 			Goto Ready3;
 		
 		AltFireRecoil:
@@ -395,7 +397,7 @@ Class PB_M1Plasma : PB_WeaponBase
 			TNT1 A 0 A_StartSound("PLSCOOL",CHAN_VOICE);
 			PLSU FFFFFFFFF 2 A_FireProjectile("SmokeSpawner",0,0,0,5);
 			P1SG DCB 1;
-			TNT1 A 0 PB_jumpIfNoAmmo();
+			TNT1 A 0 A_JumpIf(PB_GetMagEmpty(),"Ready3");
 			TNT1 A 0 A_StartSound("BEPBEP");
 			Goto Ready3;
 		
@@ -880,23 +882,7 @@ Class PB_M1Plasma : PB_WeaponBase
 					A_startsound("PLSIDLE",6,CHANF_LOOPING);
 				}
 		ReadyToFireDualWield:
-			TNT1 A 1 {
-				if(CountInv("PB_Cell")>0)
-				{
-					if(CountInv("LeftPlasmaAmmo")<=0 || CountInv("PlasmaAmmo")<=0)
-					{
-						if(CountInv("LeftPlasmaAmmo")<=0 && CountInv("PlasmaAmmo")<=0)
-							A_SetInventory("DualFireReload",2);
-						else
-							A_SetInventory("DualFireReload",1);
-					}
-				}
-				
-				if(!PB_CanDualWield())
-					return resolvestate("StopDualWield");
-				
-				return A_DoPBWeaponAction(WRF_ALLOWRELOAD|WRF_NOFIRE);
-			}
+			TNT1 A 1 A_DoPBDualAction();
 			Loop;
 		
 		IdleLeft_Overlay:
@@ -906,34 +892,7 @@ Class PB_M1Plasma : PB_WeaponBase
 					A_ClearOverlays(60,61);
 					A_SetWeaponFrame(8);
 				}
-				if(CountInv("LeftPlasmaAmmo")<=0 && CountInv("PlasmaAmmo")>0)
-					A_GiveInventory("DualFiring",1);
-					
-				int firemodecvar = Cvar.GetCvar("SingleDualFire",player).GetInt();
-				if((PressingAltFire() || JustPressed(BT_ALTATTACK)) && firemodecvar == 2)
-				{
-						if(CountInv("LeftPlasmaAmmo") > 0 && !PB_GetChamberEmpty(true))
-							return resolvestate("FireLeft_Overlay");
-						else  if(JustPressed(BT_ALTATTACK))
-						{
-							A_StartSound("weapons/empty", 10,CHANF_OVERLAP);
-							return resolvestate(null);
-						}
-				}
-				if(CountInv("DualFiring")==0 ||(CountInv("DualFiring")==0 && CountInv("PlasmaAmmo")<=0) || firemodecvar == 1)
-				{
-					if((PressingFire() || JustPressed(BT_ATTACK)) && firemodecvar < 2)
-					{
-						if(CountInv("LeftPlasmaAmmo") > 0 && !PB_GetChamberEmpty(true))
-							return resolvestate("FireLeft_Overlay");
-						else if(JustPressed(BT_ATTACK))
-						{
-							A_StartSound("weapons/empty", 10,CHANF_OVERLAP);
-							return resolvestate(null);
-						}
-					}
-				}
-				return resolvestate(null);
+				return A_DoPBLeftAction();
 			}
 			Loop;
 			
@@ -944,43 +903,7 @@ Class PB_M1Plasma : PB_WeaponBase
 					A_ClearOverlays(63,64);
 					A_SetWeaponFrame(8);
 				}
-				if(CountInv("LeftPlasmaAmmo")<=0 && CountInv("PlasmaAmmo")>0)
-					A_GiveInventory("DualFiring",1);
-				
-				int firemodecvar = Cvar.GetCvar("SingleDualFire",player).GetInt();
-				
-				if(CountInv("DualFiring")==1 ||(CountInv("DualFiring")==1 && CountInv("LeftPlasmaAmmo")<=0))
-				{
-					if((PressingFire() || JustPressed(BT_ATTACK)) && firemodecvar==0)
-					{
-						if(CountInv("PlasmaAmmo") > 0 && !PB_GetChamberEmpty())
-							return resolvestate("FireRight_Overlay");
-						else  if(JustPressed(BT_ATTACK))
-						{
-							A_StartSound("weapons/empty", 10,CHANF_OVERLAP);
-							return resolvestate(null);
-						}
-					}
-				}
-				if((PressingAltfire() || JustPressed(BT_ALTATTACK)) && firemodecvar==1){
-					if(CountInv("PlasmaAmmo") > 0 && !PB_GetChamberEmpty())
-						return resolvestate("FireRight_Overlay");
-					else  if(JustPressed(BT_ALTATTACK))
-					{
-						A_StartSound("weapons/empty", 10,CHANF_OVERLAP);
-						return resolvestate(null);
-					}
-				}
-				if((Pressingfire() || JustPressed(BT_ATTACK)) && firemodecvar==2){
-					if(CountInv("PlasmaAmmo") > 0 && !PB_GetChamberEmpty())
-						return resolvestate("FireRight_Overlay");
-					else  if(JustPressed(BT_ATTACK))
-					{
-						A_StartSound("weapons/empty", 10,CHANF_OVERLAP);
-						return resolvestate(null);
-					}
-				}
-				return resolvestate(null);
+				return A_DoPBRightAction();
 			}
 			Loop;
 		
@@ -997,7 +920,7 @@ Class PB_M1Plasma : PB_WeaponBase
 					A_StartSound("PLSM9", CHAN_WEAPON);
 					A_AlertMonsters();
 					A_ZoomFactor(0.99);
-					PB_LowAmmoSoundWarning("hdmr");
+					PB_LowAmmoSoundWarning("hdmr","LeftPlasmaAmmo");
 					PB_TakeAmmo("LeftPlasmaAmmo",1,0,0,true);
 					PB_WeaponRecoil(-1.4,+0.8);
 					A_Overlay(60,"AmmoCounterLeftDW.Firing");

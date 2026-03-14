@@ -63,10 +63,10 @@ ACTOR PB_Carbine : PB_Weapon
 	Obituary "%o was shot down by %k's Combat Rifle."
 	AttackSound "None"
 	Inventory.PickupSound "CLIPIN"
-	Inventory.Pickupmessage "Carbine (Slot 4)"
+	Inventory.Pickupmessage "$PB_CARBINE_PICKUP"
 	Inventory.MaxAmount 2
 	Inventory.Amount 1
-	Tag "UAC-41 Carbine"
+	Tag "$PB_CARBINE_TAG"
 	+WEAPON.WIMPY_WEAPON
 	//+WEAPON.NO_AUTO_SWITCH
 	+WEAPON.NOAUTOAIM
@@ -212,7 +212,7 @@ ACTOR PB_Carbine : PB_Weapon
 	IdleLeft_Overlay:
 		CB01 F 1 {
 			// Full-Auto
-			if(CountInv("LeftXRifleAmmo")<=0 && CountInv("XRifleAmmo")>0){
+			if(PB_GetChamberEmpty(true) && !PB_GetChamberEmpty){
 				A_GiveInventory("DualFiring",1);
 			}
 
@@ -293,7 +293,7 @@ ACTOR PB_Carbine : PB_Weapon
 		CB01 G 1 {
 			PB_CoolDownBarrel(-14);
 			// Full-Auto
-			if(CountInv("LeftXRifleAmmo")>0 && CountInv("XRifleAmmo")<=0){
+			if(!PB_GetChamberEmpty(true) && PB_GetChamberEmpty){
 				A_TakeInventory("DualFiring",1);
 			}
 			

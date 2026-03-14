@@ -23,7 +23,7 @@ ACTOR PB_MG42 : PB_Weapon
 	Weapon.AmmoType "PB_HighCalMag"
 	Weapon.AmmoGive 30
 	Weapon.AmmoUse 0
-	Inventory.PickupMessage "MG 42 (Slot 5)"
+	Inventory.PickupMessage "$PB_MG42_PICKUP"
 	Inventory.PickupSound "weapons/MG42/Pickup"
 	Obituary "%o tasted the power of %k's MG42"
 	+WEAPON.NOAUTOAIM
@@ -32,7 +32,7 @@ ACTOR PB_MG42 : PB_Weapon
 	+WEAPON.NOALERT
 	+dontgib
 	Scale 0.28
-	Tag "Maschinengewehr 42"
+	Tag "$PB_MG42_TAG"
 	Inventory.AltHUDIcon "HBUSD0"
 	PB_WeaponBase.respectItem "MG42Respected"
 	//FloatBobStrength 0.5
@@ -449,9 +449,6 @@ ACTOR PB_MG42 : PB_Weapon
 					else if (PressingFire() && PressingAltfire() && CountInv("PB_HighCalMag") > 1 && PB_GetOverheat == 500) {
 							Return State ("UnzoomOverheat");
 						}
-					else if (PressingFire() && PressingAltfire() && CountInv("PB_HighCalMag") <= 1) {
-							Return State ("Unzoom");
-						}
 				return A_DoPBWeaponAction(WRF_ALLOWRELOAD|WRF_NOSECONDARY);
 			}
 		else {
@@ -511,7 +508,7 @@ ACTOR PB_MG42 : PB_Weapon
 		else{
 			PB_ModifyOverheat(5);
 			}
-		A_TakeInventory("PB_HighCalMag", 1,TIF_NOTAKEINFINITE);
+		A_TakeInventory("PB_HighCalMag", 1, TIF_NOTAKEINFINITE);
 		A_StartSound("MG42FIR", CHAN_Weapon, CHANF_DEFAULT, 1.0);
 		PB_DynamicTail("lmg", "lmg");
 		//A_FireBullets(5, 5, 1, 28, "MachineGunBulletPuff", 1);
